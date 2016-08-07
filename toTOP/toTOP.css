@@ -1,0 +1,20 @@
+body {
+    margin: 0 auto;
+    background-color: yellowgreen;
+}
+.box {
+    width: 1190px;
+    margin: 0 auto;
+}
+#btn {
+    width:19px;
+    height:57px;
+    position:fixed;
+    right:65px;
+    bottom:10px;
+    display:none;
+    background:url(toTOP.png) no-repeat left top;
+}
+#btn:hover {
+    background:url(toTOP.png) no-repeat -19px 0;
+}
