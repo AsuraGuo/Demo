@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style type="text/css">
+        #sortShow{
+            height: 400px;
+            margin-left: 20px;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+<div id="sortShow">
+    数组内容为:
+    <div id="arrayContent"></div>
+    请为数组添加数字:<label><input type="text" id="arrayNum" style="width: 100px"/></label>
+    <input id="addArray" type="button" value="添加"/>
+    <input id="clearArray" type="button" value="清除数组" /><br />
+
+    <input type="button" id="selectSort" value="选择排序"/>
+    <input type="button" id="insertSort" value="插入排序"/>
+    <input type="button" id="mergeSort"  value="归并排序"/>
+    <input type="button" id="quickSort"  value="快速排序"/>
+
+    <div id="selectSortShow"></div>
+    <div id="insertSortShow"></div>
+    <div id="mergeSortShow"></div>
+    <div id="quickSortShow"></div>
+</div>
+<script>
+    $(function () {
+        var arr = [];
+        $("#addArray").click(function () {
+            var arrayNum =$("#arrayNum");
+            var arrayTemp =arrayNum.val();
+            $("#arrayContent").append(arrayTemp + ",");
+            arr.push(parseInt(arrayTemp));
+            arrayNum.val("");
+        });
+        $("#clearArray").click(function () {
+            $("#arrayContent").html("");
+            arr = [];
+            $("#selectSortShow").html("");
+            $("#insertSortShow").html("");
+            $("#mergeSortShow").html("");
+            $("#quickSortShow").html("");
+        });
+
+        //交换两个数值在数组中的位置；
+        function SwapReferences(array,i,j) {
+            var swapTemp = array[i];
+            array[i] = array[j];
+            array[j] = swapTemp;
+        }
+
+        //选择排序
+        var selectSort = $("#selectSort");
+        selectSort.click(function () {
+            var sortArr = SelectSort(arr,arr.length);
+            $("#selectSortShow").html(sortArr.toString());
+        });
+        function SelectSort(array,len) {
+            for (var i=0; i < len ; i++ ){
+                var min=i;
+                for(var j=i+1; j < len ; j++){
+                    if((array[min]-array[j])>=0){
+                        min=j;
+                    }
+                }
+                SwapReferences(array,i,min)
+            }
+            return array;
+        }
+
+        //插入排序
+        var insertSort = $("#insertSort");
+        insertSort.click(function () {
+            var sortArr= InsertSort(arr,0,arr.length);
+            $("#insertSortShow").html(sortArr.toString());
+        });
+
+        function InsertSort(array,low,high) {
+            for ( var i=low ; i < high ; i++){
+                for (var j=i; j>0 && (array[j]-array[j-1])<=0 ; j-- ){
+                    SwapReferences(array,j,j-1);
+                }
+            }
+            return array;
+        }
+
+        //归并排序
+        var mergeSort = $("#mergeSort");
+        mergeSort.click(function () {
+            console.log(arr);
+            var sortArr= MergeSort(arr,arr.length);
+            $("#mergeSortShow").html(sortArr.toString());
+        });
+
+        //迭代实现归并排序
+
+        function MergeSort(array,arrLen) {
+            var left_min,left_max,right_min,right_max;
+            var mergeTempArr=[];
+            for (var i = 1; i < arrLen ; i*=2 ){
+                for(left_min   =  0 ;left_min < arrLen -i ;left_min = right_max){
+                    right_min  =  left_max = left_min + i;
+                    right_max  =  left_max + i;
+                    if (right_max > arrLen){
+                        right_max = arrLen;
+                    }
+                    var indexArrTmp = 0 ;
+                    while (left_min < left_max && right_min < right_max){
+                        if(array[left_min]<=array[right_min]){
+                            mergeTempArr[indexArrTmp++] = array[left_min++];
+                        }else {
+                            mergeTempArr[indexArrTmp++] = array[right_min++];
+                        }
+                    }
+                    while (left_min < left_max){
+                        mergeTempArr[indexArrTmp++] = array[left_min++];
+                    }
+
+                    while (indexArrTmp > 0){
+                        array[--right_min] = mergeTempArr[--indexArrTmp];
+                    }
+                }
+            }
+            return array;
+        }
+
+        //递归实现归并排序：
+        /*
+        function MergeSort(array,len) {
+            if(len < 2){
+               return array;
+            }else if ( len >= 2 ){
+                var midLen = Math.floor(len/2);
+                var leftList = array.slice(0,midLen);
+                var rightList = array.slice(midLen);
+                leftList= MergeSort(leftList);
+                rightList= MergeSort(rightList);
+                array = Merging(leftList,rightList);
+                return array;
+            }
+
+        }
+        function Merging(leftArr,rightArr) {
+            var leftLen = leftArr.length;
+            var rightLen = rightArr.length;
+            var i=0,j=0;
+            var mergeTempArr=[];
+            while (i<leftLen && j<rightLen){
+                if(leftArr[i]<rightArr[j]){
+                    mergeTempArr.push(leftArr[i++]);
+                }else {
+                    mergeTempArr.push(rightArr[j++]);
+                }
+            }
+            while (i<leftLen){
+                mergeTempArr.push(leftArr[i++]);
+            }
+            while(j<rightLen){
+                mergeTempArr.push(rightArr[j++]);
+            }
+            return mergeTempArr;
+        }
+        */
+
+        // 快速排序
+        var quickSort = $("#quickSort");
+        quickSort.click(function () {
+            var sortArr= QuickSort(arr,0,arr.length-1);
+            $("#quickSortShow").html(sortArr.toString());
+        });
+
+
+        function QuickSort(array, low, high) {
+
+            // 数组长度为7时，插入排序的效率最高
+
+            var step = high-low;
+            if(step > 0){
+                if (step > 7 ) {
+
+                    var keyPoint = Partition(array, low, high);
+                    QuickSort(array, low, keyPoint - 1);
+                    QuickSort(array, keyPoint + 1, high);
+
+                }else {
+                    InsertSort(array,low,high);
+                    return array;
+                }
+            }
+            return array;
+        }
+
+        function Partition(array, low, high) {
+
+            var midIndex = Math.floor((high+low)/2);
+
+            // 三数中值法取 枢纽元
+            if(array[low] > array[high]){
+                SwapReferences(array,low,high);
+            }
+            if(array[midIndex] > array[high]){
+                SwapReferences(array,midIndex,high);
+            }
+            if(array[midIndex] > array[low]){
+                SwapReferences(array,midIndex,low);
+            }
+            var point = array[low];
+
+            while (low < high) {
+
+                while (low < high && point <= array[high]) {
+                    high--;
+                }
+                array[low] = array[high];
+
+                while (low < high && point >= array[low]) {
+                    low++;
+                }
+                array[high]=array[low];
+            }
+            array[low] = point;
+            return low;
+        }
+    })
+</script>
+</body>
+</html>
