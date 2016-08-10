@@ -1,0 +1,51 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>简单计算器</title>
+    <link rel="stylesheet" type="text/css" href="simpleCalculation.css">
+</head>
+<body>
+    <div id="calculator">
+        <div id="calcu-head">
+            <h6>简单的计算器</h6>
+        </div>
+        <form name="calculator" action="" method="get">
+            <div id="calcu-screen">
+                <!--配置显示窗口，使用onfocus="this.blur();"避免键盘输入-->
+                <label>
+                    <input type="text" name="numScreen" class="screen" value="0" onfocus="this.blur();"/>
+                </label>
+            </div>
+            <div id="calcu-btn">
+                <ul> <!--配置按钮-->
+                    <li onclick="command(7)">7</li>
+                    <li onclick="command(8)">8</li>
+                    <li onclick="command(9)">9</li>
+                    <li class="tool" onclick="del()">←</li>
+                    <li class="tool" onclick="clearScreen()">C</li>
+                    <li onclick="command(4)">4</li>
+                    <li onclick="command(5)">5</li>
+                    <li onclick="command(6)">6</li>
+                    <li class="tool" onclick="times()">×</li>
+                    <li class="tool" onclick="divide()">÷</li>
+                    <li onclick="command(1)">1</li>
+                    <li onclick="command(2)">2</li>
+                    <li onclick="command(3)">3</li>
+                    <li class="tool" onclick="plus()">+</li>
+                    <li class="tool" onclick="minus()">-</li>
+                    <li onclick="command(0)">0</li>
+                    <li onclick="dZero()">00</li>
+                    <li onclick="dot()">.</li>
+                    <li class="tool" onclick="perSent()">%</li>
+                    <li class="tool" onclick="equal()">=</li>
+                </ul>
+            </div>
+            <div id="calcu-foot">
+                <span id="note"></span>
+                <span class="welcome">欢迎使用javascript计算器！</span>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript" src="simpleCalculation.js"></script>
+</body>
+</html>
