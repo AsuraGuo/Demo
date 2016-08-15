@@ -48,5 +48,18 @@ var EventUtil ={
 		}else{
 			event.cancelBubble = true;
 		}
+	},
+	
+	//相关元素的信息
+	getRelatedTarget: function(event){
+		if (event.relatedTarget) {
+			return event.relatedTarget;
+		}else if (event.toElement) {
+			return event.toElement;
+		}else if (event.formElement) {
+			return event.fromElement;
+		}else{
+			return null;
+		}
 	}
 };
