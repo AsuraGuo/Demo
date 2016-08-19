@@ -1,0 +1,36 @@
+CSS Color 中阿尔法通道（α Channel或Alpha Channel）是指颜色的不透明度，而不是透明度。也就是说：
+不透明度=0 的时候是全透明。
+不透明度=1 的时候就是完全不透明。
+其中 32 位的颜色被分解成四个8位整数，R: 8 位，G: 8位 ，B: 8位，A: 8位，所以Alpha值在内部表示为介于0和255之间的一个整数（即8位无符号整数）。为了更加方便开发者使用，书写的时候我们采用 0-1 之间的浮点数来表示 Alpha 值。
+
+opacity和RGBA(alpha)通道的区别
+	opacity会继承父元素的 opacity 属性，
+	而RGBA设置的元素的后代元素不会继承不透明属性。
+=================================================================================================
+坐标位置：
+	1 客户区域坐标位置
+	鼠标事件都是在浏览器视口中的特定位置上发生的。这个位置信息保存在事件对象的 clientX 和 clientY 属性中。所有浏览器都支持这两个属性，它们的值表示事件发生时鼠标指针在视口中的水平和垂直坐标
+	2 页面坐标位置
+	通过客户区坐标知道鼠标是在视口中的什么位置发生的，而页面坐标通过事件对象的 pageX 和 pageY 属性，能告诉你事件 是在页面的什么位置发生的。换句话说，这两个属性表示鼠标光标在页面中的位置，因此坐标是从页面本身而非视口的左边和顶边计算的。
+
+	注意：
+		在页面没有滚动的情况下，pageX 和 pageY 的值与 clientX 和 clientY 的值相等。
+		IE 8 及 更早版本不支持事件对象上的页面坐标，不过使用客户区坐标和滚动信息可以计算出来。
+		这时候需要用到 document.body （混杂模式） 或 docunment.documentElement（标准模式）中的scrollLeft 和 scrollTop 属性。
+			event ? event : window.event
+		{
+			var pageX = event.pageX;
+			var pageY = event.pageY;
+
+			if (pageX === undefined){
+				pageX = event.clientX + (document.body.scrollLeft || docunent.documentElement.scrollLeft);
+			}
+
+			if (pageY === undefined){
+				pageY = event.clientY + (document.body.scrollTop || docunent.documentElement.scrollTop);
+			}
+
+		}
+	3 屏幕坐标位置
+	鼠标事件发生时，不仅会有相对于浏览器窗口的位置，还有一个相对于整个电脑屏幕的位置。而通过 screenX 和 screenY 属性就可以确定鼠标事件发生时鼠标指针相对于整个屏幕的坐标信息。
+=================================================================================================
